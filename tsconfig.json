@@ -18,7 +18,7 @@
 
     /* Node environment */
     "lib": ["ES2020"],
-    "types": ["node"]
+    "types": ["node", "express"]
   },
   "include": ["src"],
   "exclude": ["node_modules", "dist"]

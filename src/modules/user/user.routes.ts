@@ -13,7 +13,7 @@ router.post("/login", validateRequest(loginSchema), login);
 router.get("/logout", logout);
 
 //**  Protected routes (require authentication)
-router.get("/current-user/:userId", authMiddleware, getCurrent);
+router.get("/current-user", authMiddleware, getCurrent);
 router.get("/profile", authMiddleware, upload.single("image"));
 
 export default router;

@@ -38,7 +38,7 @@ export const login = async (
     res.cookie("authToken", result.token, getCookieOptions());
 
     // Return user data without token (token is now in cookie)
-    res.json({
+    res.status(200).json({
       message: "Login successful",
       user: {
         id: result.user._id,
@@ -80,10 +80,11 @@ export const getCurrent = async (
   next: NextFunction
 ) => {
   try {
-    const { userId } = req.params;
-    const user = await getCurrentUser(userId);
+    const user = await getCurrentUser(req.user?.id as string);
 
-    res.json(user);
+    res
+      .status(200)
+      .json({ message: "Current user fetched successfully", user });
   } catch (error) {
     next(error);
   }

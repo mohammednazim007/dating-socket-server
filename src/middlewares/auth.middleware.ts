@@ -1,6 +1,6 @@
 // src/middlewares/auth.middleware.ts
 import { Request, Response, NextFunction } from "express";
-import jwt from "jsonwebtoken";
+import jwt, { JwtPayload } from "jsonwebtoken";
 
 //**  To access data from frontend
 export const authMiddleware = (
@@ -21,8 +21,12 @@ export const authMiddleware = (
   }
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET as string);
-    (req as any).user = decoded;
+    const decoded = jwt.verify(
+      token,
+      process.env.JWT_SECRET as string
+    ) as Express.Request["user"]; // ✅ cast to our custom type
+
+    req.user = decoded; // ✅ no more TypeScript error
     next();
   } catch (err) {
     return res.status(403).json({ message: "Forbidden" });
