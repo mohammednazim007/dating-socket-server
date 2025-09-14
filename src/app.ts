@@ -1,0 +1,35 @@
+// src/app.ts
+import express, { Application } from "express";
+import cors from "cors";
+import cookieParser from "cookie-parser";
+import userRoutes from "./modules/user/user.routes";
+import { errorHandler } from "./middlewares/error.middleware";
+import { healthRoute } from "./middlewares/healthMiddleware";
+
+const app: Application = express();
+
+// CORS configuration for cookie support
+app.use(
+  cors({
+    origin: process.env.FRONTEND_URL || "http://localhost:3000",
+    credentials: true, // Allow cookies to be sent
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization", "Cookie"],
+  })
+);
+
+// Cookie parser middleware with secure settings
+app.use(cookieParser(process.env.COOKIE_SECRET || "fallback-secret-key"));
+
+app.use(express.json());
+
+// Global health route
+app.get("/health", healthRoute);
+
+// Routes
+app.use("/api/v1/user", userRoutes);
+
+// Global Health & Error Handler
+app.use(errorHandler);
+
+export default app;
