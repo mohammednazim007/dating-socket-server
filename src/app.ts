@@ -22,6 +22,7 @@ app.use(
 app.use(cookieParser(process.env.COOKIE_SECRET || "fallback-secret-key"));
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // Global health route
 app.get("/health", healthRoute);

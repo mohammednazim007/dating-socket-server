@@ -42,7 +42,7 @@ export const login = async (
     res.status(200).json({
       message: "Login successful",
       user: {
-        id: result.user._id,
+        _id: result.user._id,
         name: result.user.name,
         email: result.user.email,
         // token: result.token,
@@ -81,7 +81,8 @@ export const getCurrent = async (
   next: NextFunction
 ) => {
   try {
-    const user = await getCurrentUser(req.user?.id as string);
+    const user = await getCurrentUser(req.user?._id as string);
+    console.log("userId", req);
 
     res
       .status(200)
@@ -99,7 +100,7 @@ export const getRelatedFriends = async (
 ) => {
   try {
     const relatedFriend = await getCurrentRelatedFriends(
-      req.user?.id as string
+      req.user?._id as string
     );
 
     res
