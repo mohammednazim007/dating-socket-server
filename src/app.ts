@@ -1,5 +1,6 @@
 // src/app.ts
 import dotenv from "dotenv";
+dotenv.config();
 import express, { Application } from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
@@ -8,7 +9,6 @@ import { errorHandler } from "./middlewares/error.middleware";
 import { healthRoute } from "./middlewares/healthMiddleware";
 
 const app: Application = express();
-dotenv.config();
 
 // CORS configuration for cookie support
 app.use(
