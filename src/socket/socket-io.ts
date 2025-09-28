@@ -16,8 +16,26 @@ const io = new Server(httpServer, {
 io.on("connection", (socket) => {
   // console.log("✅ User connected:", socket.id);
 
-  socket.on("join_room", (room) => {
-    console.log("✅ User joined room:", room);
+  // Join a private room (roomId can be senderId_receiverId)
+  socket.on("join_room", (roomId) => {
+    socket.join(roomId);
+    console.log(`✅ User ${socket.id} joined room ${roomId}`);
+  });
+
+  // Send a message to a specific room
+  socket.on("send_message", ({ senderId, receiverId, content }) => {
+    // Generate a deterministic room ID (so both sender and receiver join same room)
+    const roomId =
+      senderId < receiverId
+        ? `${senderId}_${receiverId}`
+        : `${receiverId}_${senderId}`;
+
+    io.to(roomId).emit("receive_message", { senderId, content });
+    console.log(`✅ Message sent in room ${roomId}:`, content);
+  });
+
+  socket.on("disconnect", () => {
+    console.log("❌ User disconnected:", socket.id);
   });
 });
 
