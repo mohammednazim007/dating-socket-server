@@ -4,11 +4,11 @@ const messageSchema = new mongoose.Schema(
   {
     text: {
       type: String,
-      required: true,
+      required: false,
     },
     media: {
       type: String,
-      url: String,
+      required: false,
     },
     sender_id: {
       type: mongoose.Schema.Types.ObjectId,

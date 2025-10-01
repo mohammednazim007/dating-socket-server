@@ -7,8 +7,6 @@ import {
   updateProfile,
 } from "./user.service";
 import { getCookieOptions } from "../../utils/get-cookie-options";
-import User from "./user.model";
-import bcrypt from "bcryptjs";
 
 // ** Register User with name, email and password
 export const register = async (
