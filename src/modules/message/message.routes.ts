@@ -1,13 +1,19 @@
 import express, { Router } from "express";
+import { upload } from "../../cloudinary/upload";
+import { getChatHistory, sendMessage } from "./message.controller";
 import { authMiddleware } from "../../middlewares/auth.middleware";
-import {
-  getMessagesController,
-  sendMessageController,
-} from "./message.controller";
 
 const router: Router = express.Router();
 
-router.get("/:receiver_id", authMiddleware, getMessagesController);
-router.post("/send/:sender_id", authMiddleware, sendMessageController);
+// Send a message (text + image)
+router.post(
+  "/:receiver_id",
+  authMiddleware,
+  upload.single("media"),
+  sendMessage
+);
+
+// Get chat history
+router.get("/get_message", authMiddleware, getChatHistory);
 
 export default router;
