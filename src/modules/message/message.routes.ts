@@ -7,13 +7,13 @@ const router: Router = express.Router();
 
 // Send a message (text + image)
 router.post(
-  "/:receiver_id",
+  "/send/:receiver_id",
   authMiddleware,
   upload.single("media"),
   sendMessage
 );
 
 // Get chat history
-router.get("/get_message", authMiddleware, getChatHistory);
+router.post("/get_message", authMiddleware, getChatHistory);
 
 export default router;
