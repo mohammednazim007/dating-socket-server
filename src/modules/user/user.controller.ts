@@ -92,9 +92,8 @@ export const getRelatedFriends = async (
   next: NextFunction
 ) => {
   try {
-    const relatedFriend = await getCurrentRelatedFriends(
-      req.user?.id as string
-    );
+    const userId = (req as any).user.id as string;
+    const relatedFriend = await getCurrentRelatedFriends(userId);
 
     res
       .status(200)
