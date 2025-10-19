@@ -1,13 +1,5 @@
-import mongoose, { Schema, Document } from "mongoose";
-
-export interface INotification extends Document {
-  senderId: string;
-  receiverId: string;
-  type: "friend_request" | "message" | "system";
-  message: string;
-  isRead: boolean;
-  createdAt: Date;
-}
+import mongoose, { Schema } from "mongoose";
+import { INotification } from "./notification.interface";
 
 const notificationSchema = new Schema<INotification>(
   {
