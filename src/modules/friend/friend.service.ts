@@ -12,13 +12,15 @@ export const sendRequest = async (senderId: string, receiverId: string) => {
 
   if (!sender || !receiver) throw new Error("User not found");
 
-  // if (
-  //   sender.friends.includes(receiverId) ||
-  //   sender.sentRequests.includes(receiverId) ||
-  //   receiver.friendRequests.includes(senderId)
-  // ) {
-  //   throw new Error("Friend request already exists");
-  // }
+  if (
+    sender.friends.includes(receiverId) ||
+    sender.friendRequests.includes(receiverId) ||
+    sender.sentRequests.includes(receiverId) ||
+    receiver.sentRequests.includes(senderId) ||
+    receiver.friendRequests.includes(senderId)
+  ) {
+    throw new Error("Friend request already exists");
+  }
 
   sender.sentRequests.push(receiverId);
   receiver.friendRequests.push(senderId);
@@ -31,7 +33,9 @@ export const sendRequest = async (senderId: string, receiverId: string) => {
     senderId,
     receiverId,
     type: "friend_request",
+    name: sender.name,
     message: `${sender.name} sent you a friend request.`,
+    avatar: sender.avatar,
   });
 
   // ✅ 2. If receiver online, send real-time notification

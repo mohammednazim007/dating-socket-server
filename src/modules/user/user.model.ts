@@ -8,7 +8,6 @@ const userSchema = new Schema<IUser>(
     password: { type: String, required: true },
     avatar: { type: String, default: null },
     isFriend: { type: Boolean, default: false },
-    isPending: { type: Boolean, default: false },
 
     friends: [{ type: Schema.Types.ObjectId, ref: "User", default: [] }],
     friendRequests: [{ type: Schema.Types.ObjectId, ref: "User", default: [] }],

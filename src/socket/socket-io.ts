@@ -46,7 +46,7 @@ export const initSocket = (server: HttpServer) => {
     });
 
     // ✅ Mark messages as read
-    socket.on("mark_as_read", async ({ sender_id, receiver_id }) => {
+    socket.on("mark_as_read_messages", async ({ sender_id, receiver_id }) => {
       await Message.updateMany(
         { sender_id, receiver_id, isRead: false },
         { $set: { isRead: true } }
@@ -58,10 +58,25 @@ export const initSocket = (server: HttpServer) => {
       }
     });
 
+    // ✅ Mark all Notification as read
+    socket.on("mark_as_read_all_notifications", async ({ receiver_id }) => {
+      await Notification.updateMany(
+        { receiverId: receiver_id, isRead: false },
+        { $set: { isRead: true } }
+      );
+
+      // Fetch updated notifications (optional: only unread or all)
+      const updatedNotifications = await Notification.find({
+        receiverId: receiver_id,
+      }).sort({ createdAt: -1 });
+
+      // Emit updated notifications back to the client
+      socket.emit("unread_notifications", updatedNotifications);
+    });
+
     //✅  When user reconnects
     if (uid) {
       userSocketMap[uid] = socket.id;
-      console.log(`✅ User connected: ${uid} (${socket.id})`);
 
       // ✅ Send any unread notifications when user comes online
       try {
@@ -77,20 +92,6 @@ export const initSocket = (server: HttpServer) => {
         console.error("Error fetching unread notifications:", err);
       }
     }
-    // ✅ Optional: mark notifications as read
-    socket.on(
-      "mark_notifications_as_read",
-      async (notificationIds: string[]) => {
-        try {
-          await Notification.updateMany(
-            { _id: { $in: notificationIds } },
-            { $set: { isRead: true } }
-          );
-        } catch (err) {
-          console.error("Error marking notifications as read:", err);
-        }
-      }
-    );
 
     socket.on("disconnect", () => {
       console.log(`❌ User disconnected: ${uid}`);
