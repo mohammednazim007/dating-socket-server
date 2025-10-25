@@ -87,7 +87,7 @@ export const getNonFriendUsers = async (userId: string) => {
       { _id: { $ne: userId } },
       { _id: { $nin: user.friends } },
       // { _id: { $nin: user.friendRequests } },
-      // { _id: { $nin: user.sentRequests } },
+      { _id: { $nin: user.sentRequests } },
     ],
   }).select("-password");
 
