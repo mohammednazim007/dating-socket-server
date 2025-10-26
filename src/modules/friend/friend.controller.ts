@@ -5,6 +5,7 @@ import {
   acceptedFriend,
   getNonFriendUsers,
   acceptRequest,
+  getRequestedFriend,
 } from "./friend.service";
 
 // ** Get all non-friend users
@@ -12,6 +13,17 @@ export const getAllNonFriendUsers = async (req: Request, res: Response) => {
   try {
     const userId = (req as any).user.id as string;
     const result = await getNonFriendUsers(userId);
+    res.status(200).json(result);
+  } catch (error: any) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+// ** Get the request all friend
+export const getAllRequestedFriend = async (req: Request, res: Response) => {
+  try {
+    const userId = (req as any).user.id as string;
+    const result = await getRequestedFriend(userId);
     res.status(200).json(result);
   } catch (error: any) {
     res.status(400).json({ message: error.message });

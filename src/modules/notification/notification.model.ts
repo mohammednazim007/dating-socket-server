@@ -6,7 +6,7 @@ const notificationSchema = new Schema<INotification>(
     senderId: { type: String, required: true },
     receiverId: { type: String, required: true },
     name: { type: String, required: true },
-    avatar: { type: String, required: true },
+    avatar: { type: String, required: false },
     type: {
       type: String,
       enum: ["friend_request", "message", "system"],
