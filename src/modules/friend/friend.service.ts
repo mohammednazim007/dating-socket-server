@@ -142,7 +142,7 @@ export const cancelRequest = async (senderId: string, receiverId: string) => {
 
   return {
     message: "Friend request cancelled successfully",
-    user: { sender, receiver },
+    user: { receiver },
   };
 };
 
