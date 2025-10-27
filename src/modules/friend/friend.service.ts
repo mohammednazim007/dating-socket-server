@@ -114,33 +114,6 @@ export const getNonFriendUsers = async (userId: string) => {
 };
 
 // ** Cancel friend request
-// export const cancelRequest = async (senderId: string, receiverId: string) => {
-//   const sender = User.findById(senderId);
-//   const receiver = User.findById(receiverId);
-
-//   const [senderExists, receiverExists] = await Promise.all([sender, receiver]);
-//   if (!senderExists || !receiverExists) throw new Error("User not found");
-
-//   const [updatedSender, updatedReceiver, deleteResult] = await Promise.all([
-//     User.findByIdAndUpdate(
-//       receiverId,
-//       { $pull: { sentRequests: senderId } },
-//       { new: true } // Return the updated document
-//     ),
-//     User.findByIdAndUpdate(
-//       senderId,
-//       { $pull: { friendRequests: receiverId } },
-//       { new: true } // Return the updated document
-//     ),
-//     Notification.deleteOne({ senderId, receiverId, type: "friend_request" }),
-//   ]);
-
-//   return {
-//     message: "Friend request cancelled successfully",
-//     users: { updatedSender, updatedReceiver },
-//   };
-// };
-
 export const cancelRequest = async (senderId: string, receiverId: string) => {
   // Ensure both users exist
   const [sender, receiver] = await Promise.all([
@@ -164,23 +137,19 @@ export const cancelRequest = async (senderId: string, receiverId: string) => {
       { $pull: { friendRequests: receiverId } },
       { new: true } // Return the updated document
     ),
-    // Notification.deleteOne({ senderId, receiverId, type: "friend_request" }),
+    Notification.deleteMany({
+      senderId: new mongoose.Types.ObjectId(receiverId),
+      receiverId: new mongoose.Types.ObjectId(senderId),
+      type: "friend_request",
+    }),
   ]);
 
   // Delete corresponding notification
-  await Notification.deleteMany({
-    senderId: new mongoose.Types.ObjectId(receiverId),
-    receiverId: new mongoose.Types.ObjectId(senderId),
-    type: "friend_request",
-  });
-
-  const test = await Notification.find({
-    senderId: new mongoose.Types.ObjectId(receiverId),
-    receiverId: new mongoose.Types.ObjectId(senderId),
-    type: "friend_request",
-  });
-
-  console.log("test", test);
+  // await Notification.deleteMany({
+  //   senderId: new mongoose.Types.ObjectId(receiverId),
+  //   receiverId: new mongoose.Types.ObjectId(senderId),
+  //   type: "friend_request",
+  // });
 
   return {
     message: "Friend request cancelled successfully",
