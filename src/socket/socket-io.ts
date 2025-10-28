@@ -45,21 +45,8 @@ export const initSocket = (server: HttpServer) => {
       }
     });
 
-    // ✅ Mark messages as read
-    socket.on("mark_as_read_messages", async ({ sender_id, receiver_id }) => {
-      await Message.updateMany(
-        { sender_id, receiver_id, isRead: false },
-        { $set: { isRead: true } }
-      );
-
-      const senderSocketId = userSocketMap[sender_id];
-      if (senderSocketId) {
-        io.to(senderSocketId).emit("messages_seen", { reader_id: receiver_id });
-      }
-    });
-
-    // ✅ Mark all Notification as read
-    socket.on("mark_as_read_all_notifications", async ({ receiver_id }) => {
+    // ✅ Read all Notification as read
+    socket.on("read_all_notifications", async ({ receiver_id }) => {
       await Notification.updateMany(
         { receiverId: receiver_id, isRead: false },
         { $set: { isRead: true } }
