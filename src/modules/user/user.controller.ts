@@ -35,24 +35,6 @@ export const register = async (
 // CONTROLLER:
 //    - `login` calls `loginUser` service and returns user data (token in cookie).
 // ============================================================
-// export const login = async (
-//   req: Request,
-//   res: Response,
-//   next: NextFunction
-// ) => {
-//   try {
-//     const { email, password } = req.body;
-//     const result = await loginUser(email, password);
-
-//     res.cookie("authToken", result.token, getCookieOptions());
-//     res.status(200).json({
-//       message: "Login successful",
-//       user: result.user,
-//     });
-//   } catch (error) {
-//     next(error);
-//   }
-// };
 export const login = async (
   req: Request,
   res: Response,
@@ -88,23 +70,6 @@ export const login = async (
 // CONTROLLER:
 //    - `logout` clears the authToken cookie and returns a success message.
 // ============================================================
-// export const logout = async (
-//   req: Request,
-//   res: Response,
-//   next: NextFunction
-// ) => {
-//   try {
-//     res.clearCookie("authToken", {
-//       httpOnly: true,
-//       secure: process.env.NODE_ENV === "production",
-//       sameSite: "strict",
-//       path: "/",
-//     });
-//     res.status(200).json({ message: "Logout successful" });
-//   } catch (error) {
-//     next(error);
-//   }
-// };
 export const logout = async (
   req: Request,
   res: Response,
