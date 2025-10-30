@@ -39,6 +39,23 @@ export const createUser = async (
 // CONTROLLER:
 //    - Called by `login` in `user.controller.ts` to log in a user.
 // ============================================================
+// export const loginUser = async (email: string, password: string) => {
+//   const user = await User.findOne({ email });
+//   if (!user) throw new Error("User not found with this credentials");
+
+//   const isMatch = await bcrypt.compare(password, user.password);
+//   if (!isMatch) throw new Error("Invalid credentials");
+
+//   const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET as string, {
+//     expiresIn: "1d",
+//   });
+
+//   const userObj = user.toObject();
+//   delete userObj.password;
+
+//   return { token, user: userObj };
+// };
+
 export const loginUser = async (email: string, password: string) => {
   const user = await User.findOne({ email });
   if (!user) throw new Error("User not found with this credentials");
@@ -46,14 +63,22 @@ export const loginUser = async (email: string, password: string) => {
   const isMatch = await bcrypt.compare(password, user.password);
   if (!isMatch) throw new Error("Invalid credentials");
 
-  const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET as string, {
-    expiresIn: "1d",
-  });
+  const accessToken = jwt.sign(
+    { id: user._id },
+    process.env.JWT_SECRET as string,
+    { expiresIn: "15m" }
+  );
+
+  const refreshToken = jwt.sign(
+    { id: user._id },
+    process.env.JWT_REFRESH_SECRET as string,
+    { expiresIn: "30d" }
+  );
 
   const userObj = user.toObject();
   delete userObj.password;
 
-  return { token, user: userObj };
+  return { accessToken, refreshToken, user: userObj };
 };
 
 // ============================================================
