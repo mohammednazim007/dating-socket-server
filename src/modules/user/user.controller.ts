@@ -41,10 +41,19 @@ export const login = async (
   next: NextFunction
 ) => {
   try {
-    const { email, password } = req.body;
+    const { email, password, rememberMe } = req.body;
     const result = await loginUser(email, password);
 
-    res.cookie("authToken", result.token, getCookieOptions());
+    // Access token (short-lived)
+    res.cookie("accessToken", result.accessToken, getCookieOptions("access"));
+
+    // Refresh token (longer-lived if rememberMe is true)
+    res.cookie(
+      "refreshToken",
+      result.refreshToken,
+      getCookieOptions("refresh", rememberMe)
+    );
+
     res.status(200).json({
       message: "Login successful",
       user: result.user,
@@ -67,12 +76,17 @@ export const logout = async (
   next: NextFunction
 ) => {
   try {
-    res.clearCookie("authToken", {
+    const cookieOptions = {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
+      sameSite: "strict" as const,
       path: "/",
-    });
+    };
+
+    // Clear both cookies
+    res.clearCookie("accessToken", cookieOptions);
+    res.clearCookie("refreshToken", cookieOptions);
+
     res.status(200).json({ message: "Logout successful" });
   } catch (error) {
     next(error);

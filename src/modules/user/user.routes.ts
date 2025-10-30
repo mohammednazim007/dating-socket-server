@@ -10,6 +10,7 @@ import { validateRequest } from "../../middlewares/validateRequest";
 import { authMiddleware } from "../../middlewares/auth.middleware";
 import { loginSchema, registerSchema } from "./user.validation";
 import { upload } from "../../cloudinary/upload";
+import { refreshToken } from "../../utils/refreshToken";
 
 const router: Router = express.Router();
 
@@ -19,6 +20,8 @@ router.post("/register", validateRequest(registerSchema), register);
 
 // Login user and return token
 router.post("/login", validateRequest(loginSchema), login);
+
+router.post("/refresh-token", refreshToken);
 
 //** Protected routes (require authentication)
 // Get currently logged-in user

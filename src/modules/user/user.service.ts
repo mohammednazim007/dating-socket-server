@@ -1,7 +1,6 @@
 import User from "./user.model";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import mongoose from "mongoose";
 
 // ============================================================
 // ✅ METHOD: POST
@@ -46,14 +45,22 @@ export const loginUser = async (email: string, password: string) => {
   const isMatch = await bcrypt.compare(password, user.password);
   if (!isMatch) throw new Error("Invalid credentials");
 
-  const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET as string, {
-    expiresIn: "1d",
-  });
+  const accessToken = jwt.sign(
+    { id: user._id },
+    process.env.JWT_ACCESS_SECRET as string,
+    { expiresIn: "15m" }
+  );
+
+  const refreshToken = jwt.sign(
+    { id: user._id },
+    process.env.JWT_REFRESH_SECRET as string,
+    { expiresIn: "30d" }
+  );
 
   const userObj = user.toObject();
   delete userObj.password;
 
-  return { token, user: userObj };
+  return { accessToken, refreshToken, user: userObj };
 };
 
 // ============================================================
