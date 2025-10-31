@@ -1,4 +1,12 @@
 import { Request, Response } from "express";
+// import {
+//   sendRequest,
+//   cancelRequest,
+//   acceptedFriend,
+//   getNonFriendUsers,
+//   acceptRequest,
+//   getRequestedFriend,
+// } from "./friend.service";
 import {
   sendRequest,
   cancelRequest,
@@ -6,7 +14,7 @@ import {
   getNonFriendUsers,
   acceptRequest,
   getRequestedFriend,
-} from "./friend.service";
+} from "@/modules/friend/friend.service";
 
 // ============================================================
 // ✅ CONTROLLER: getAllNonFriendUsers

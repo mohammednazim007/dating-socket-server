@@ -1,11 +1,18 @@
 import { Request, Response, NextFunction } from "express";
+// import {
+//   createUser,
+//   getCurrentUser,
+//   loginUser,
+//   updateProfile,
+// } from "./user.service";
+// import { getCookieOptions } from "../../utils/get-cookie-options";
 import {
   createUser,
   getCurrentUser,
   loginUser,
   updateProfile,
-} from "./user.service";
-import { getCookieOptions } from "../../utils/get-cookie-options";
+} from "@/modules/user/user.service";
+import { getCookieOptions } from "@/utils/get-cookie-options";
 
 // ============================================================
 // ✅ ROUTE: POST /users/register

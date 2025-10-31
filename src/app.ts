@@ -4,11 +4,16 @@ dotenv.config();
 import express, { Application } from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-import userRoutes from "./modules/user/user.routes";
-import { errorHandler } from "./middlewares/error.middleware";
-import { healthRoute } from "./middlewares/healthMiddleware";
-import messageRoutes from "./modules/message/message.routes";
-import friendRoutes from "./modules/friend/friend.routes";
+// import userRoutes from "./modules/user/user.routes";
+// import { errorHandler } from "./middlewares/error.middleware";
+// import { healthRoute } from "./middlewares/healthMiddleware";
+// import messageRoutes from "./modules/message/message.routes";
+// import friendRoutes from "./modules/friend/friend.routes";
+import userRoutes from "@/modules/user/user.routes";
+import messageRoutes from "@/modules/message/message.routes";
+import friendRoutes from "@/modules/friend/friend.routes";
+import { errorHandler } from "@/middlewares/error.middleware";
+import { healthRoute } from "@/middlewares/healthMiddleware";
 
 const app: Application = express();
 

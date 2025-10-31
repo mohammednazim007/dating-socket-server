@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import { getReceiverSocketId, io } from "../../socket/socket-io";
-import Notification from "../notification/notification.model";
-import User from "../user/user.model";
+import Notification from "@/modules/notification/notification.model";
+import User from "@/modules/user/user.model";
 
 // ============================================================
 // ✅ Method: POST- sendRequest

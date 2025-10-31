@@ -7,8 +7,8 @@ import {
   cancelFriendRequest,
   acceptFriendRequest,
   getAllRequestedFriend,
-} from "./friend.controller";
-import { authMiddleware } from "../../middlewares/auth.middleware";
+} from "@/modules/friend/friend.controller";
+import { authMiddleware } from "@/middlewares/auth.middleware";
 
 const router: Router = express.Router();
 
