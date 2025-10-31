@@ -6,11 +6,6 @@ import {
   getCurrent,
   updateUserProfile,
 } from "@/modules/user/user.controller";
-// import { validateRequest } from "../../middlewares/validateRequest";
-// import { authMiddleware } from "../../middlewares/auth.middleware";
-// import { loginSchema, registerSchema } from "./user.validation";
-// import { upload } from "../../cloudinary/upload";
-// import { refreshToken } from "../../utils/refreshToken";
 import { validateRequest } from "@/middlewares/validateRequest";
 import { authMiddleware } from "@/middlewares/auth.middleware";
 import { loginSchema, registerSchema } from "@/modules/user/user.validation";

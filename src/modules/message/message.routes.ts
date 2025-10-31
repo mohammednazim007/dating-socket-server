@@ -1,7 +1,4 @@
 import express, { Router } from "express";
-// import { upload } from "../../cloudinary/upload";
-// import { getChatHistory, sendMessage } from "./message.controller";
-// import { authMiddleware } from "../../middlewares/auth.middleware";
 import { upload } from "@/cloudinary/upload";
 import {
   getChatHistory,

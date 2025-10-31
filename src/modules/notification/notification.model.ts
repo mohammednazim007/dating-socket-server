@@ -1,5 +1,4 @@
 import mongoose, { Schema } from "mongoose";
-// import { INotification } from "./notification.interface
 import { INotification } from "@/modules/notification/notification.interface";
 // ";
 

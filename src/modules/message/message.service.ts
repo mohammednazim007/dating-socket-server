@@ -1,5 +1,3 @@
-// import { IMessage } from "./message.interface";
-// import Message from "./message.model";
 import { IMessage } from "@/modules/message/message.interface";
 import Message from "@/modules/message/message.model";
 
