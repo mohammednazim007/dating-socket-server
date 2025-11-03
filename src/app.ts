@@ -7,7 +7,7 @@ import cookieParser from "cookie-parser";
 import userRoutes from "@/modules/user/user.routes";
 import messageRoutes from "@/modules/message/message.routes";
 import friendRoutes from "@/modules/friend/friend.routes";
-import resetRoute from "@/modules/reset-otp/email.routes";
+import resetRoute from "@/modules/reset-password/email.routes";
 import { errorHandler } from "@/middlewares/error.middleware";
 import { healthRoute } from "@/middlewares/healthMiddleware";
 
