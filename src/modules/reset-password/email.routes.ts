@@ -4,7 +4,7 @@ import {
   verifyOTPAndResetPassword,
   resetPassword,
 } from "@/modules/reset-password/email.controller";
-import { rateLimiter } from "@/utils/rateLimiter";
+import { rateLimiter } from "@/middlewares/rateLimiter.middleware";
 
 const router: Router = Router();
 

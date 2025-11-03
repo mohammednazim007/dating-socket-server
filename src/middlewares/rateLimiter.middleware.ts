@@ -17,13 +17,3 @@ export const rateLimiter = rateLimit({
   standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
   legacyHeaders: false, // Disable `X-RateLimit-*` headers
 });
-
-// 🔹 Generic limiter for login or reset-password (optional)
-export const authRateLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 10, // Max 10 attempts per IP
-  message: {
-    success: false,
-    message: "Too many requests, please try again later.",
-  },
-});
