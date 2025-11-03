@@ -1,14 +1,18 @@
-import mongoose, { Document, Schema } from "mongoose";
+import mongoose, { Document, Schema, Model } from "mongoose";
+
+export type OtpPurpose = "reset_password" | "verify_email";
 
 export interface IOtp extends Document {
   email: string;
   otp: string;
-  purpose: "reset_password" | "verify_email";
+  purpose: OtpPurpose;
   expiresAt: Date;
   verified: boolean;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
-const OtpSchema: Schema<IOtp> = new Schema(
+const OtpSchema = new Schema<IOtp>(
   {
     email: { type: String, required: true },
     otp: { type: String, required: true },
@@ -23,6 +27,7 @@ const OtpSchema: Schema<IOtp> = new Schema(
   { timestamps: true }
 );
 
-const Otp = mongoose.models.Otp || mongoose.model<IOtp>("Otp", OtpSchema);
+const Otp: Model<IOtp> =
+  mongoose.models.Otp || mongoose.model<IOtp>("Otp", OtpSchema);
 
 export default Otp;
