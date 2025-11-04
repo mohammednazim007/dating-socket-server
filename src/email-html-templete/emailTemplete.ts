@@ -5,7 +5,7 @@ export const emailOtpTemplate = (otp: string): string => {
       
       <!-- Header -->
       <div style="background: linear-gradient(135deg, #4F46E5, #6366F1); color: white; padding: 24px; text-align: center;">
-        <h1 style="margin: 0; font-size: 22px; letter-spacing: 0.5px;">Official Chat</h1>
+        <h1 style="margin: 0; font-size: 22px; letter-spacing: 0.5px;">Developer</h1>
       </div>
 
       <!-- Body -->

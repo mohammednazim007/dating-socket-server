@@ -45,12 +45,12 @@ export const sendRequest = async (senderId: string, receiverId: string) => {
     User.findByIdAndUpdate(
       senderId,
       { $push: { sentRequests: receiverId } },
-      { new: true }
+      { new: true },
     ),
     User.findByIdAndUpdate(
       receiverId,
       { $push: { friendRequests: senderId } },
-      { new: true }
+      { new: true },
     ),
   ]);
 
@@ -145,7 +145,7 @@ export const getNonFriendUsers = async (userId: string) => {
       { _id: { $ne: userId } },
       { _id: { $nin: user.friends } },
       // { _id: { $nin: user.friendRequests } },
-      { _id: { $nin: user.sentRequests } },
+      // { _id: { $nin: user.sentRequests } },
     ],
   }).select("-password");
 
@@ -181,12 +181,12 @@ export const cancelRequest = async (senderId: string, receiverId: string) => {
     User.findByIdAndUpdate(
       senderId,
       { $pull: { friendRequests: receiverId } },
-      { new: true }
+      { new: true },
     ),
     User.findByIdAndUpdate(
       receiverId,
       { $pull: { sentRequests: senderId } },
-      { new: true }
+      { new: true },
     ),
   ]);
 
@@ -224,10 +224,10 @@ export const acceptRequest = async (senderId: string, receiverId: string) => {
 
   // Remove from pending lists
   sender.sentRequests = sender.sentRequests.filter(
-    (id: string) => id.toString() !== receiverId
+    (id: string) => id.toString() !== receiverId,
   );
   receiver.friendRequests = receiver.friendRequests.filter(
-    (id: string) => id.toString() !== senderId
+    (id: string) => id.toString() !== senderId,
   );
 
   await sender.save();
