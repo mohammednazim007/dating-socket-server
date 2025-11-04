@@ -150,7 +150,7 @@ export const getNonFriendUsers = async (userId: string) => {
   }).select("-password");
 
   return {
-    message: "Non-friend users retrieved successfully",
+    message: "Friend retrieved successfully",
     users: nonFriendUsers,
   };
 };
