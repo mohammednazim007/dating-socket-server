@@ -11,11 +11,12 @@ export const sendMessage = async (
   next: NextFunction
 ) => {
   try {
-    const { sender_id, text } = req.body;
-    const { receiver_id } = req.params; // comes from URL
+    const { text } = req.body;
+    const userId = req.user?.id as string;
+    const { friend_id } = req.params; // comes from URL
 
     // Type guard
-    if (!sender_id || !receiver_id) {
+    if (!userId || !friend_id) {
       return res
         .status(400)
         .json({ message: "sender_id and receiver_id are required" });
@@ -33,12 +34,12 @@ export const sendMessage = async (
     const newMessage = await createMessage({
       text,
       media: mediaPath,
-      sender_id: new mongoose.Types.ObjectId(sender_id),
-      receiver_id: new mongoose.Types.ObjectId(receiver_id),
+      user_id: new mongoose.Types.ObjectId(userId),
+      friend_id: new mongoose.Types.ObjectId(friend_id),
     });
 
     // ✅ Emit message to receiver if online
-    const receiverSocketId = getReceiverSocketId(receiver_id);
+    const receiverSocketId = getReceiverSocketId(friend_id);
     if (receiverSocketId) {
       io.to(receiverSocketId).emit("new_message", newMessage);
     }
@@ -52,24 +53,18 @@ export const sendMessage = async (
   }
 };
 
+// get chat history between two users
+
 export const getChatHistory = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const { sender_id, receiver_id } = req.body;
+    const userId = req.user?.id as string;
+    const { friend_id } = req.params;
 
-    if (!sender_id || !receiver_id) {
-      return res
-        .status(400)
-        .json({ message: "sender_id and receiver_id are required" });
-    }
-
-    const messages = await getMessages(
-      sender_id as string,
-      receiver_id as string
-    );
+    const messages = await getMessages(userId, friend_id);
 
     res
       .status(200)

@@ -24,6 +24,7 @@ export const register = async (
   try {
     const { name, email, password, avatar } = req.body;
     const user = await createUser(name, email, password, avatar);
+
     res.status(201).json(user);
   } catch (error) {
     if (error instanceof ZodError) {
