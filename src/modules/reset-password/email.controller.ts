@@ -72,7 +72,7 @@ export const verifyOTPAndResetPassword = async (
 // PURPOSE:
 //    - Reset user's password after OTP verification is successful.
 // ============================================================
-export const resetPassword = async (
+export const changePassword = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -81,7 +81,11 @@ export const resetPassword = async (
     const { email, newPassword } = resetPasswordValidation.parse(req.body);
     const result = await handleResetPassword(email, newPassword);
 
-    res.status(200).json({ message: "Password reset successfully", result });
+    res.status(200).json({
+      message: "Password reset successfully",
+      user: result.email,
+      success: true,
+    });
   } catch (error) {
     if (error instanceof ZodError) {
       return res.status(400).json(handleZodError(error));
