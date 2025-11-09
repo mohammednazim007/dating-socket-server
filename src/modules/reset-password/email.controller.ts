@@ -51,17 +51,14 @@ export const verifyOTPAndResetPassword = async (
   next: NextFunction
 ) => {
   try {
-    // const { email, otpCode } = req.body;
     const { email, otpCode } = verifyOtpValidation.parse(req.body);
     const result = await handleVerifyOtp(email, otpCode);
 
-    res
-      .status(200)
-      .json({
-        message: "OTP verified successfully",
-        verify: result.verified,
-        success: true,
-      });
+    res.status(200).json({
+      message: "OTP verified successfully",
+      verify: result.verified,
+      success: true,
+    });
   } catch (error) {
     if (error instanceof ZodError) {
       return res.status(400).json(handleZodError(error));
