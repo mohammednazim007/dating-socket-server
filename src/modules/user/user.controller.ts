@@ -6,7 +6,7 @@ import {
   updateProfile,
 } from "@/modules/user/user.service";
 import { getCookieOptions } from "@/utils/get-cookie-options";
-import { ZodError } from "zod";
+import { success, ZodError } from "zod";
 import { handleZodError } from "@/utils/handleZodError";
 
 // ============================================================
@@ -63,6 +63,7 @@ export const login = async (
     res.status(200).json({
       message: "Login successful",
       user: result.user,
+      success: true,
     });
   } catch (error) {
     if (error instanceof ZodError) {
