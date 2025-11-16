@@ -6,10 +6,7 @@
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only -r tsconfig-paths/register src/server.ts",
     "build": "tsc",
-    "start": "node -r module-alias/register dist/server.js"
-  },
-  "_moduleAliases": {
-    "@": "dist"
+    "start": "node -r tsconfig-paths/register dist/server.js"
   },
   "keywords": [],
   "author": "",
@@ -25,18 +22,21 @@
     "express": "^5.1.0",
     "express-rate-limit": "^8.2.1",
     "jsonwebtoken": "^9.0.2",
+    "module-alias": "^2.2.3",
     "mongoose": "^8.17.0",
     "multer": "^2.0.2",
     "multer-storage-cloudinary": "^4.0.0",
     "nodemailer": "^7.0.10",
     "resend": "^6.4.0",
     "socket.io": "^4.8.1",
+    "ts-module-alias": "^0.1.4",
     "zod": "^4.0.14"
   },
   "devDependencies": {
     "@types/cookie-parser": "^1.4.9",
     "@types/express": "^5.0.3",
     "@types/jsonwebtoken": "^9.0.10",
+    "@types/module-alias": "^2.0.4",
     "@types/multer": "^2.0.0",
     "@types/node": "^24.2.0",
     "@types/nodemailer": "^7.0.3",
