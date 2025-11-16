@@ -26,7 +26,6 @@
     "lib": ["ES2020"],
     "types": ["node"]
   },
-  // "include": ["src", "api"],
-  "include": ["src/**/*.ts"],
+  "include": ["src", "api"],
   "exclude": ["node_modules", "dist"]
 }
