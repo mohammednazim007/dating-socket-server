@@ -15,7 +15,7 @@ export const getCookieOptions = (
   return {
     httpOnly: true,
     secure: isProduction, // Only HTTPS in production
-    sameSite: isProduction ? "none" : "lax", // Cross-site cookies
+    sameSite: isProduction ? ("none" as const) : ("lax" as const), // Cross-site cookies
     path: "/",
     signed: false,
     maxAge: type === "access" ? accessMaxAge : refreshMaxAge,
