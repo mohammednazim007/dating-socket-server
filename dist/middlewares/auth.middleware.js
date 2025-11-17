@@ -41,7 +41,7 @@ const authMiddleware = (req, res, next) => {
         try {
             const decodedRefresh = jsonwebtoken_1.default.verify(refreshToken, process.env.JWT_REFRESH_SECRET);
             // Optionally issue a new access token
-            const newAccessToken = jsonwebtoken_1.default.sign({ id: decodedRefresh.id }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "30d" });
+            const newAccessToken = jsonwebtoken_1.default.sign({ id: decodedRefresh.id }, process.env.JWT_ACCESS_SECRET, { expiresIn: "30d" });
             res.cookie("accessToken", newAccessToken, {
                 httpOnly: true,
                 secure: process.env.NODE_ENV === "production",

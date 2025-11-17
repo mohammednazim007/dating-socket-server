@@ -15,8 +15,10 @@ const getCookieOptions = (type = "access", rememberMe = false) => {
         sameSite: isProduction ? "none" : "lax", // Cross-site cookies
         path: "/",
         signed: false,
+        domain: ".onrender.com",
         maxAge: type === "access" ? accessMaxAge : refreshMaxAge,
     };
 };
 exports.getCookieOptions = getCookieOptions;
+// isProduction ? ("none" as const) : ("lax" as const)
 //# sourceMappingURL=get-cookie-options.js.map
