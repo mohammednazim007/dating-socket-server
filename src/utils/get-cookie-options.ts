@@ -17,7 +17,7 @@ export const getCookieOptions = (
     secure: isProduction, // Only HTTPS in production
     sameSite: isProduction ? ("none" as const) : ("lax" as const), // Cross-site cookies
     path: "/",
-    signed: false,
+    signed: true,
     maxAge: type === "access" ? accessMaxAge : refreshMaxAge,
   };
 };
