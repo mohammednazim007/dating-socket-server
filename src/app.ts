@@ -11,6 +11,7 @@ import resetRoute from "@/modules/reset-password/email.routes";
 import { errorHandler } from "@/middlewares/error.middleware";
 
 const app: Application = express();
+app.set("trust proxy", 1); //** trust first proxy (Render) */
 
 // CORS configuration for cookie support
 app.use(
@@ -26,7 +27,6 @@ app.use(
 // app.use(cookieParser(process.env.COOKIE_SECRET || "fallback-secret-key"));
 
 app.use(cookieParser());
-app.set("trust proxy", 1); //** trust first proxy (Render) */
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
