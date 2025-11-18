@@ -2,8 +2,6 @@ export const getCookieOptions = (
   type: "access" | "refresh" = "access",
   rememberMe = false
 ) => {
-  const isProduction = process.env.NODE_ENV === "production";
-
   const accessMaxAge = 15 * 24 * 60 * 60 * 1000; // 15 days
   const defaultRefreshMaxAge = 7 * 24 * 60 * 60 * 1000; // 7 days
   const extendedRefreshMaxAge = 30 * 24 * 60 * 60 * 1000; // 30 days
@@ -14,7 +12,7 @@ export const getCookieOptions = (
 
   return {
     httpOnly: true,
-    secure: isProduction, // Only HTTPS in production
+    secure: process.env.NODE_ENV === "production", // Only HTTPS in production
     sameSite: "none" as const, // Cross-site cookies
     path: "/",
     signed: true,
