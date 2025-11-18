@@ -20,6 +20,8 @@ export const authMiddleware = (
       req.cookies?.refreshToken ||
       req.headers["x-refresh-token"];
 
+    const isProduction = process.env.NODE_ENV === "production";
+
     if (!accessToken && !refreshToken) {
       return res.status(401).json({ message: "Unauthorized user" });
     }
@@ -57,16 +59,18 @@ export const authMiddleware = (
       // Optionally issue a new access token
       const newAccessToken = jwt.sign(
         { id: decodedRefresh.id },
-        process.env.ACCESS_TOKEN_SECRET as string,
+        process.env.JWT_ACCESS_SECRET as string,
         { expiresIn: "30d" }
       );
 
       res.cookie("accessToken", newAccessToken, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "lax",
+        secure: isProduction, // Only HTTPS in production
+        sameSite: isProduction ? ("none" as const) : ("lax" as const), // Cross-site cookies
+        path: "/",
         signed: true,
-        maxAge: 15 * 60 * 1000, // 15 minutes
+        domain: ".onrender.com",
+        maxAge: 15 * 24 * 60 * 60 * 1000, // 15 days
       });
 
       req.user = decodedRefresh;
