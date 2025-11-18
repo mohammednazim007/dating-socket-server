@@ -12,11 +12,11 @@ export const getCookieOptions = (
 
   return {
     httpOnly: true,
-    secure: isProd, // HTTPS only in production
-    sameSite: isProd ? ("none" as const) : ("lax" as const), // allow cross-site cookies in production
+    secure: isProd, // Required when sameSite = "none"
+    sameSite: isProd ? ("none" as const) : ("lax" as const),
     path: "/",
-    signed: false, // ❗ MUST be false for cross-domain
+    signed: false,
+    domain: isProd ? process.env.COOKIE_DOMAIN : undefined,
     maxAge: type === "access" ? accessMaxAge : refreshMaxAge,
-    // domain: isProd ? process.env.COOKIE_DOMAIN : undefined,
   };
 };

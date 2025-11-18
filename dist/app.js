@@ -15,6 +15,7 @@ const friend_routes_1 = __importDefault(require("./modules/friend/friend.routes"
 const email_routes_1 = __importDefault(require("./modules/reset-password/email.routes"));
 const error_middleware_1 = require("./middlewares/error.middleware");
 const app = (0, express_1.default)();
+app.set("trust proxy", 1); //** trust first proxy (Render) */
 // CORS configuration for cookie support
 app.use((0, cors_1.default)({
     origin: process.env.FRONTEND_URL,
@@ -24,7 +25,6 @@ app.use((0, cors_1.default)({
 }));
 // Cookie parser middleware with secure settings
 // app.use(cookieParser(process.env.COOKIE_SECRET || "fallback-secret-key"));
-// ❗ do NOT use signed cookies — signed breaks cross-site cookies
 app.use((0, cookie_parser_1.default)());
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));

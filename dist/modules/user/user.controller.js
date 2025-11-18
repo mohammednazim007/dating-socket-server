@@ -64,13 +64,16 @@ exports.login = login;
 // ============================================================
 const logout = async (req, res, next) => {
     try {
+        const isProd = process.env.NODE_ENV === "production";
         const cookieOptions = {
             httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
-            sameSite: "strict",
+            secure: isProd,
+            sameSite: isProd ? "none" : "lax",
             path: "/",
+            domain: process.env.NODE_ENV === "production"
+                ? process.env.COOKIE_DOMAIN
+                : undefined,
         };
-        // Clear both cookies
         res.clearCookie("accessToken", cookieOptions);
         res.clearCookie("refreshToken", cookieOptions);
         res.status(200).json({ message: "Logout successful" });

@@ -4,6 +4,6 @@ export declare const getCookieOptions: (type?: "access" | "refresh", rememberMe?
     sameSite: "none" | "lax";
     path: string;
     signed: boolean;
-    maxAge: number;
     domain: string | undefined;
+    maxAge: number;
 };
