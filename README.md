@@ -161,8 +161,6 @@ The application requires the following environment variables to be configured in
 **Authentication Configuration**
 
 - `JWT_ACCESS_SECRET`: Secret key for access token generation
-- `JWT_REFRESH_SECRET`: Secret key for refresh token generation
-- `COOKIE_SECRET`: Secret key for cookie signing
 
 **Email Configuration**
 
@@ -309,4 +307,3 @@ We welcome contributions from developers. Follow this process to contribute:
 - Check response data format
 - Test error scenarios
 - Verify authentication requirements
-

@@ -46,6 +46,7 @@ export const getAllNonFriendUsers = async (req: Request, res: Response) => {
 export const getAllRequestedFriend = async (req: Request, res: Response) => {
   try {
     const userId = (req as any).user.id as string;
+
     const result = await getRequestedFriend(userId);
     res.status(200).json(result);
   } catch (error: any) {

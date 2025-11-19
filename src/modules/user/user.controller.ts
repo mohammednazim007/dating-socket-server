@@ -5,8 +5,7 @@ import {
   loginUser,
   updateProfile,
 } from "@/modules/user/user.service";
-import { getCookieOptions } from "@/utils/get-cookie-options";
-import { success, ZodError } from "zod";
+import { ZodError } from "zod";
 import { handleZodError } from "@/utils/handleZodError";
 
 // ============================================================
@@ -37,9 +36,8 @@ export const register = async (
 // ============================================================
 // ✅ ROUTE: POST /users/login
 // PURPOSE:
-//    - Login user with email and password, set auth token in cookie.
-// CONTROLLER:
-//    - `login` calls `loginUser` service and returns user data (token in cookie).
+//    - Login user with email and password, return user data and auth token.
+
 // ============================================================
 export const login = async (
   req: Request,
@@ -47,23 +45,14 @@ export const login = async (
   next: NextFunction
 ) => {
   try {
-    const { email, password, rememberMe } = req.body;
+    const { email, password } = req.body;
     const result = await loginUser(email, password);
 
-    // Access token (short-lived)
-    res.cookie("accessToken", result.accessToken, getCookieOptions("access"));
-
-    // Refresh token (longer-lived if rememberMe is true)
-    res.cookie(
-      "refreshToken",
-      result.refreshToken,
-      getCookieOptions("refresh", rememberMe)
-    );
-
     res.status(200).json({
+      success: true,
       message: "Login successful",
       user: result.user,
-      success: true,
+      accessToken: result.accessToken,
     });
   } catch (error) {
     if (error instanceof ZodError) {
@@ -86,20 +75,10 @@ export const logout = async (
   next: NextFunction
 ) => {
   try {
-    const isProd = process.env.NODE_ENV === "production";
-
-    const cookieOptions = {
-      httpOnly: true,
-      secure: isProd,
-      sameSite: isProd ? ("none" as const) : ("lax" as const),
-      path: "/",
-      domain: isProd ? process.env.COOKIE_DOMAIN : undefined,
-    };
-
-    res.clearCookie("accessToken", cookieOptions);
-    res.clearCookie("refreshToken", cookieOptions);
-
-    res.status(200).json({ message: "Logout successful" });
+    res.status(200).json({
+      success: true,
+      message: "Logout successful. ",
+    });
   } catch (error) {
     if (error instanceof ZodError) {
       return res.status(400).json(handleZodError(error));

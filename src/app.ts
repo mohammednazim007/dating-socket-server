@@ -3,7 +3,6 @@ import dotenv from "dotenv";
 dotenv.config();
 import express, { Application } from "express";
 import cors from "cors";
-import cookieParser from "cookie-parser";
 import userRoutes from "@/modules/user/user.routes";
 import messageRoutes from "@/modules/message/message.routes";
 import friendRoutes from "@/modules/friend/friend.routes";
@@ -11,22 +10,15 @@ import resetRoute from "@/modules/reset-password/email.routes";
 import { errorHandler } from "@/middlewares/error.middleware";
 
 const app: Application = express();
-app.set("trust proxy", 1); //** trust first proxy (Render) */
 
-// CORS configuration for cookie support
+// CORS configuration support
 app.use(
   cors({
     origin: process.env.FRONTEND_URL,
-    credentials: true, // Allow cookies to be sent
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Allowed methods
     allowedHeaders: ["Content-Type", "Authorization", "Cookie"], // Allowed headers
   })
 );
-
-// Cookie parser middleware with secure settings
-// app.use(cookieParser(process.env.COOKIE_SECRET || "fallback-secret-key"));
-
-app.use(cookieParser());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

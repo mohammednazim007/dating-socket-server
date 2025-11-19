@@ -51,12 +51,6 @@ export const loginUser = async (email: string, password: string) => {
     { expiresIn: "30d" }
   );
 
-  const refreshToken = jwt.sign(
-    { id: user._id },
-    process.env.JWT_REFRESH_SECRET as string,
-    { expiresIn: "30d" }
-  );
-
   //✅ Update user last active timestamp
   user.lastActive = new Date();
   await user.save();
@@ -64,7 +58,7 @@ export const loginUser = async (email: string, password: string) => {
   const userObj = user.toObject();
   delete userObj.password;
 
-  return { accessToken, refreshToken, user: userObj };
+  return { accessToken, user: userObj };
 };
 
 // ============================================================
