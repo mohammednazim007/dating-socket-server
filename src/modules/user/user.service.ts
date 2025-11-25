@@ -74,31 +74,6 @@ export const loginUser = async (email: string, password: string) => {
 // CONTROLLER:
 //    - Called by `updateUserProfile` in `user.controller.ts`
 // ============================================================
-// export const updateProfile = async (
-//   userId: string,
-//   file?: Express.Multer.File & { path?: string; filename?: string },
-//   currentPassword?: string,
-//   newPassword?: string,
-//   name?: string
-// ) => {
-//   const user = await User.findById(userId);
-//   if (!user) {
-//     throw new Error("User not found");
-//   }
-
-//   if (name) user.name = name;
-
-//   if (currentPassword && newPassword) {
-//     const isMatch = await bcrypt.compare(currentPassword, user.password);
-//     if (!isMatch) throw new Error("Current password is incorrect");
-//     user.password = await bcrypt.hash(newPassword, 10);
-//   }
-
-//   if (file?.path) user.avatar = file.path;
-
-//   await user.save();
-//   return user;
-// };
 
 export const updateProfile = async (userId: string, data: IUpdateProfile) => {
   const user = await User.findById(userId);
