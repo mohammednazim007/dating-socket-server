@@ -10,8 +10,8 @@ export const securityValidation = z.object({
     .optional()
     .refine((val) => !val || passwordRegex.test(val), "Password is too weak"),
 
-  twoFactorEnabled: z.boolean(),
   confirmPassword: z.string().optional(),
+  twoFactorEnabled: z.boolean(),
   lastPasswordChange: z.date().optional(),
 });
 

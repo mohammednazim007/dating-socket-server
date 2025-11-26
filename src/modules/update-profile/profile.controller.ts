@@ -16,13 +16,12 @@ export const updateSecurityController = async (
     }
 
     const parsedData: SecuritySchemaType = securityValidation.parse(req.body);
-
     const updatedUser = await updateProfileSecurity(userId, parsedData);
 
     return res.status(200).json({
       success: true,
       message: "Security settings updated successfully",
-      user: updatedUser,
+      data: updatedUser,
     });
   } catch (error) {
     if (error instanceof ZodError) {

@@ -3,11 +3,11 @@ import { SecuritySchemaType } from "./profile.validation";
 
 const profileSchema = new Schema<SecuritySchemaType>(
   {
-    confirmPassword: { type: String, required: false },
-    currentPassword: { type: String, required: false },
-    newPassword: { type: String, required: false },
-    phone: { type: String, required: false },
-    twoFactorEnabled: { type: Boolean, required: false },
+    phone: { type: String },
+    currentPassword: { type: String },
+    confirmPassword: { type: String },
+    twoFactorEnabled: { type: Boolean, default: false },
+    lastPasswordChange: { type: Date },
   },
   { timestamps: true }
 );

@@ -23,6 +23,8 @@ const userSchema = new Schema<IUserDocument>(
     marketingEmails: { type: Boolean, default: false },
     securityEmails: { type: Boolean, default: false },
     productUpdates: { type: Boolean, default: false },
+    twoFactorEnabled: { type: Boolean, default: false },
+    lastPasswordChange: { type: Date, default: null },
 
     friends: [{ type: Schema.Types.ObjectId, ref: "User", default: [] }],
     friendRequests: [{ type: Schema.Types.ObjectId, ref: "User", default: [] }],

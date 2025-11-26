@@ -15,6 +15,8 @@ export interface IUser {
   marketingEmails?: boolean;
   securityEmails?: boolean;
   productUpdates?: boolean;
+  twoFactorEnabled?: boolean;
+  lastPasswordChange?: Date;
 
   isFriend?: boolean;
   friends?: string[];
