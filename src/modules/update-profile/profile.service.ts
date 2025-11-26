@@ -9,14 +9,8 @@ export const updateProfileSecurity = async (
   const { phone, currentPassword, confirmPassword, twoFactorEnabled } = data;
 
   const user = await User.findById(userId);
-  if (!user) {
-    throw new Error({
-      message: "User not found.",
-      success: false,
-    } as unknown as string);
-  }
+  if (!user) throw new Error("User not found.");
 
-  // Build updates object with full type safety
   const updates: Partial<{
     phone: string;
     password: string;
@@ -24,29 +18,27 @@ export const updateProfileSecurity = async (
     lastPasswordChange: Date;
   }> = {};
 
-  // If user wants to change password
+  // --- Password change logic ---
+  if (currentPassword && confirmPassword) {
+    const isPasswordMatch = await bcrypt.compare(
+      currentPassword,
+      user.password
+    );
+    if (!isPasswordMatch) throw new Error("Invalid current password.");
 
-  if (!currentPassword || !confirmPassword) {
-    throw new Error({
-      message: "Password is required to change.",
-      success: false,
-    } as unknown as string);
+    updates.password = await bcrypt.hash(confirmPassword, 10);
+    updates.lastPasswordChange = new Date();
   }
 
-  const isPasswordMatch = await bcrypt.compare(currentPassword, user.password);
+  // --- Update phone ALWAYS ---
+  if (phone) updates.phone = phone;
 
-  if (!isPasswordMatch) {
-    throw new Error("Invalid current password.");
-  }
-
-  updates.password = await bcrypt.hash(confirmPassword, 10);
-  updates.phone = phone;
-  updates.lastPasswordChange = new Date();
-
-  // Update 2FA
+  // --- Update 2FA ONLY if provided ---
   if (typeof twoFactorEnabled === "boolean") {
-    updates.twoFactorEnabled = twoFactorEnabled;
+    updates.twoFactorEnabled = Boolean(twoFactorEnabled);
   }
+  console.log("updates", updates);
+  console.log("2", twoFactorEnabled);
 
   const updatedUser = await User.findByIdAndUpdate(
     userId,
@@ -54,12 +46,7 @@ export const updateProfileSecurity = async (
     { new: true }
   ).select("-password");
 
-  if (!updatedUser) {
-    throw new Error({
-      message: "Failed to update user security settings.",
-      success: false,
-    } as unknown as string);
-  }
+  if (!updatedUser) throw new Error("Failed to update user security settings.");
 
   return updatedUser;
 };

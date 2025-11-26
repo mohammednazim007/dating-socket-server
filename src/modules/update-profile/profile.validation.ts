@@ -1,10 +1,16 @@
 import { z } from "zod";
+
 const passwordRegex = /^(?=.*[A-Z])(?=.*\d).{6,}$/;
+const phoneRegex = /^(?:\+?88)?01[3-9]\d{8}$/;
 
 export const securityValidation = z.object({
-  phone: z.string().optional(),
-  currentPassword: z.string().regex(passwordRegex, "Password is too weak"),
-  twoFactorEnabled: z.boolean().optional(),
+  phone: z.string().regex(phoneRegex, "Invalid phone number"),
+  currentPassword: z
+    .string()
+    .optional()
+    .refine((val) => !val || passwordRegex.test(val), "Password is too weak"),
+
+  twoFactorEnabled: z.boolean(),
   confirmPassword: z.string().optional(),
   lastPasswordChange: z.date().optional(),
 });
