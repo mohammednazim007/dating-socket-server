@@ -37,8 +37,6 @@ export const updateProfileSecurity = async (
   if (typeof twoFactorEnabled === "boolean") {
     updates.twoFactorEnabled = Boolean(twoFactorEnabled);
   }
-  console.log("updates", updates);
-  console.log("type ", typeof twoFactorEnabled === "boolean");
 
   const updatedUser = await User.findByIdAndUpdate(
     userId,
