@@ -15,7 +15,11 @@ const register = async (req, res, next) => {
     try {
         const { name, email, password, avatar } = req.body;
         const user = await (0, user_service_1.createUser)(name, email, password, avatar);
-        res.status(201).json(user);
+        res.status(201).json({
+            success: true,
+            message: "User registered successfully",
+            user,
+        });
     }
     catch (error) {
         if (error instanceof zod_1.ZodError) {
@@ -81,9 +85,11 @@ exports.logout = logout;
 const getCurrent = async (req, res, next) => {
     try {
         const user = await (0, user_service_1.getCurrentUser)(req.user?.id);
-        res
-            .status(200)
-            .json({ message: "Current user fetched successfully", user });
+        res.status(200).json({
+            success: true,
+            message: "Current user fetched successfully",
+            user,
+        });
     }
     catch (error) {
         if (error instanceof zod_1.ZodError) {
@@ -109,21 +115,29 @@ const updateUserProfile = async (req, res, next) => {
         if (!userId) {
             return res.status(401).json({ success: false, message: "Unauthorized" });
         }
-        const { name, currentPassword, newPassword } = req.body;
+        const { name, role, location, website, bio, twitter, github, linkedin } = req.body;
         const file = req.file;
-        const user = await (0, user_service_1.updateProfile)(userId, file, currentPassword, newPassword, name);
+        const updateData = {
+            name,
+            role,
+            location,
+            website,
+            bio,
+            twitter,
+            github,
+            linkedin,
+            file,
+        };
+        const updatedUser = await (0, user_service_1.updateProfile)(userId, updateData);
         return res.status(200).json({
+            success: true,
             message: "Profile updated successfully",
-            user: {
-                _id: user._id,
-                name: user.name,
-                email: user.email,
-                avatar: user.avatar,
-            },
+            user: updatedUser,
         });
     }
     catch (error) {
-        return res.status(400).json({ success: false, message: error.message });
+        const message = error instanceof Error ? error.message : "Something went wrong";
+        return res.status(400).json({ success: false, message });
     }
 };
 exports.updateUserProfile = updateUserProfile;

@@ -13,6 +13,7 @@ const message_routes_1 = __importDefault(require("./modules/message/message.rout
 const friend_routes_1 = __importDefault(require("./modules/friend/friend.routes"));
 const email_routes_1 = __importDefault(require("./modules/reset-password/email.routes"));
 const error_middleware_1 = require("./middlewares/error.middleware");
+const profile_routes_1 = __importDefault(require("./modules/update-profile/profile.routes"));
 const app = (0, express_1.default)();
 // CORS configuration support
 app.use((0, cors_1.default)({
@@ -29,6 +30,7 @@ app.get("/", (req, res) => {
 });
 // Routes
 app.use("/api/v1/user", user_routes_1.default);
+app.use("/api/v1/profile", profile_routes_1.default);
 app.use("/api/v1/auth", email_routes_1.default);
 app.use("/api/v1/message", message_routes_1.default);
 app.use("/api/v1/friend", friend_routes_1.default);

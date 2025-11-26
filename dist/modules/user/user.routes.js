@@ -21,6 +21,7 @@ router.post("/login", (0, validateRequest_1.validateRequest)(user_validation_1.l
 router.get("/current-user", auth_middleware_1.authMiddleware, user_controller_1.getCurrent);
 // ** Update user profile with optional image
 router.post("/profile", auth_middleware_1.authMiddleware, upload_1.upload.single("image"), user_controller_1.updateUserProfile);
+// ** Update
 //**  Logout user
 router.get("/logout", user_controller_1.logout);
 exports.default = router;

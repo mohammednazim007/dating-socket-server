@@ -34,30 +34,14 @@ var __importStar = (this && this.__importStar) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importStar(require("mongoose"));
-const userSchema = new mongoose_1.Schema({
-    name: { type: String, required: true },
-    email: { type: String, unique: true, required: true },
-    password: { type: String, required: true },
-    avatar: { type: String, default: null },
-    role: { type: String, default: null },
-    location: { type: String, default: null },
-    bio: { type: String, default: null },
-    phone: { type: String, default: null },
-    website: { type: String, default: null },
-    twitter: { type: String, default: null },
-    github: { type: String, default: null },
-    linkedin: { type: String, default: null },
-    marketingEmails: { type: Boolean, default: false },
-    securityEmails: { type: Boolean, default: false },
-    productUpdates: { type: Boolean, default: false },
+const profileSchema = new mongoose_1.Schema({
+    phone: { type: String },
+    currentPassword: { type: String },
+    confirmPassword: { type: String },
     twoFactorEnabled: { type: Boolean, default: false },
-    lastPasswordChange: { type: Date, default: null },
-    friends: [{ type: mongoose_1.Schema.Types.ObjectId, ref: "User", default: [] }],
-    friendRequests: [{ type: mongoose_1.Schema.Types.ObjectId, ref: "User", default: [] }],
-    sentRequests: [{ type: mongoose_1.Schema.Types.ObjectId, ref: "User", default: [] }],
-    blockedUsers: [{ type: mongoose_1.Schema.Types.ObjectId, ref: "User", default: [] }],
-    lastActive: { type: Date, default: Date.now },
+    lastPasswordChange: { type: Date },
 }, { timestamps: true });
-const User = mongoose_1.default.models.User || (0, mongoose_1.model)("User", userSchema);
-exports.default = User;
-//# sourceMappingURL=user.model.js.map
+const Profile = mongoose_1.default.models.Profile ||
+    (0, mongoose_1.model)("Profile", profileSchema);
+exports.default = Profile;
+//# sourceMappingURL=profile.model.js.map

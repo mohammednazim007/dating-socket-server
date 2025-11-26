@@ -36,8 +36,9 @@ exports.sendOTP = sendOTP;
 // ============================================================
 const verifyOTPAndResetPassword = async (req, res, next) => {
     try {
-        const { email, otpCode } = email_validation_1.verifyOtpValidation.parse(req.body);
+        const { email, otpCode } = email_validation_1.validation_otp.parse(req.body);
         const result = await (0, email_service_1.handleVerifyOtp)(email, otpCode);
+        console.log(result, email, otpCode);
         res.status(200).json({
             message: "OTP verified successfully",
             verify: result.verified,

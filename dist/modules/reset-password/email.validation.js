@@ -1,13 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.resetPasswordValidation = exports.verifyOtpValidation = exports.sendEmailValidation = void 0;
+exports.resetPasswordValidation = exports.validation_otp = exports.sendEmailValidation = void 0;
 const zod_1 = require("zod");
 // For generating or sending OTP
 exports.sendEmailValidation = zod_1.z.object({
     email: zod_1.z.string().email("Invalid email address"),
 });
 // For verifying OTP and resetting password
-exports.verifyOtpValidation = zod_1.z.object({
+exports.validation_otp = zod_1.z.object({
     email: zod_1.z.string().email("Invalid email address"),
     otpCode: zod_1.z
         .string()

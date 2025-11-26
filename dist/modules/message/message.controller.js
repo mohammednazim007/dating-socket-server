@@ -18,7 +18,7 @@ const mongoose_1 = __importDefault(require("mongoose"));
 //    - Saves the message to MongoDB.
 //    - Emits the new message to the receiver in real-time if they are online.
 // ============================================================
-const sendMessage = async (req, res, next) => {
+const sendMessage = async (req, res) => {
     try {
         const { text } = req.body;
         const userId = req.user?.id;
@@ -56,7 +56,8 @@ const sendMessage = async (req, res, next) => {
         });
     }
     catch (error) {
-        next(error);
+        const message = error instanceof Error ? error.message : "Something went wrong";
+        res.status(400).json({ message, success: false });
     }
 };
 exports.sendMessage = sendMessage;
@@ -69,7 +70,7 @@ exports.sendMessage = sendMessage;
 //    - Retrieves all messages (both sent and received)
 //      between the two users from MongoDB.
 // ============================================================
-const getChatHistory = async (req, res, next) => {
+const getChatHistory = async (req, res) => {
     try {
         const userId = req.user?.id;
         const { friend_id } = req.params;
@@ -83,7 +84,8 @@ const getChatHistory = async (req, res, next) => {
         });
     }
     catch (error) {
-        next(error);
+        const message = error instanceof Error ? error.message : "Something went wrong";
+        res.status(400).json({ message, success: false });
     }
 };
 exports.getChatHistory = getChatHistory;

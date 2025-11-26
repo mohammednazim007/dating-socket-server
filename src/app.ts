@@ -8,6 +8,7 @@ import messageRoutes from "@/modules/message/message.routes";
 import friendRoutes from "@/modules/friend/friend.routes";
 import resetRoute from "@/modules/reset-password/email.routes";
 import { errorHandler } from "@/middlewares/error.middleware";
+import profileRoutes from "@/modules/update-profile/profile.routes";
 
 const app: Application = express();
 
@@ -31,6 +32,7 @@ app.get("/", (req, res) => {
 
 // Routes
 app.use("/api/v1/user", userRoutes);
+app.use("/api/v1/profile", profileRoutes);
 app.use("/api/v1/auth", resetRoute);
 
 app.use("/api/v1/message", messageRoutes);

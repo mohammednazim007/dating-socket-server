@@ -17,10 +17,15 @@ const getAllNonFriendUsers = async (req, res) => {
     try {
         const userId = req.user.id;
         const result = await (0, friend_service_1.getNonFriendUsers)(userId);
-        res.status(200).json(result);
+        res.status(200).json({
+            success: true,
+            message: "Non-friend users fetched successfully",
+            users: result,
+        });
     }
     catch (error) {
-        res.status(400).json({ message: error.message });
+        const message = error instanceof Error ? error.message : "Something went wrong";
+        res.status(400).json({ message, success: false });
     }
 };
 exports.getAllNonFriendUsers = getAllNonFriendUsers;
@@ -39,10 +44,15 @@ const getAllRequestedFriend = async (req, res) => {
     try {
         const userId = req.user.id;
         const result = await (0, friend_service_1.getRequestedFriend)(userId);
-        res.status(200).json(result);
+        res.status(200).json({
+            success: true,
+            message: "Friend requests fetched successfully",
+            users: result,
+        });
     }
     catch (error) {
-        res.status(400).json({ message: error.message });
+        const message = error instanceof Error ? error.message : "Something went wrong";
+        res.status(400).json({ message, success: false });
     }
 };
 exports.getAllRequestedFriend = getAllRequestedFriend;
@@ -61,10 +71,15 @@ const sendFriendRequest = async (req, res) => {
     try {
         const { senderId, receiverId } = req.body;
         const result = await (0, friend_service_1.sendRequest)(senderId, receiverId);
-        res.status(201).json(result);
+        res.status(201).json({
+            success: true,
+            message: "Friend request sent successfully",
+            users: result.data,
+        });
     }
     catch (error) {
-        res.status(400).json({ message: error.message });
+        const message = error instanceof Error ? error.message : "Something went wrong";
+        res.status(400).json({ message, success: false });
     }
 };
 exports.sendFriendRequest = sendFriendRequest;
@@ -83,10 +98,15 @@ const getAcceptedFriend = async (req, res) => {
     try {
         const userId = req.user.id;
         const result = await (0, friend_service_1.acceptedFriend)(userId);
-        res.status(200).json(result);
+        res.status(200).json({
+            success: true,
+            message: "Accepted friends fetched successfully",
+            users: result,
+        });
     }
     catch (error) {
-        res.status(400).json({ message: error.message });
+        const message = error instanceof Error ? error.message : "Something went wrong";
+        res.status(400).json({ message, success: false });
     }
 };
 exports.getAcceptedFriend = getAcceptedFriend;
@@ -106,12 +126,15 @@ const cancelFriendRequest = async (req, res) => {
         const senderId = req.user?.id;
         const { receiverId } = req.params;
         const result = await (0, friend_service_1.cancelRequest)(senderId, receiverId);
-        return res.status(200).json(result);
+        return res.status(200).json({
+            success: true,
+            message: "Friend request cancelled successfully",
+            users: result.data,
+        });
     }
     catch (error) {
-        // Log error for debugging, then send generic 400 response
-        console.error("Cancel Request Error:", error.message);
-        res.status(400).json({ message: error.message });
+        const message = error instanceof Error ? error.message : "Something went wrong";
+        res.status(400).json({ message, success: false });
     }
 };
 exports.cancelFriendRequest = cancelFriendRequest;
@@ -121,11 +144,15 @@ const cancelFriendRequestByMe = async (req, res) => {
         const userId = req.user?.id;
         const { friendId } = req.params;
         const result = await (0, friend_service_1.cancelRequestByMe)(userId, friendId);
-        return res.status(200).json(result);
+        return res.status(200).json({
+            success: true,
+            message: "Friend request cancelled successfully",
+            users: result.data,
+        });
     }
     catch (error) {
-        console.error("Cancel Request Error:", error.message);
-        res.status(400).json({ message: error.message });
+        const message = error instanceof Error ? error.message : "Something went wrong";
+        res.status(400).json({ message, success: false });
     }
 };
 exports.cancelFriendRequestByMe = cancelFriendRequestByMe;
@@ -144,10 +171,15 @@ const acceptFriendRequest = async (req, res) => {
     try {
         const { senderId, receiverId } = req.body;
         const result = await (0, friend_service_1.acceptRequest)(senderId, receiverId);
-        res.status(200).json(result);
+        res.status(200).json({
+            success: true,
+            message: "Friend request accepted successfully",
+            users: result.data,
+        });
     }
     catch (error) {
-        res.status(400).json({ message: error.message });
+        const message = error instanceof Error ? error.message : "Something went wrong";
+        res.status(400).json({ message, success: false });
     }
 };
 exports.acceptFriendRequest = acceptFriendRequest;

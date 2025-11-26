@@ -65,7 +65,6 @@ const sendRequest = async (senderId, receiverId) => {
         });
     }
     return {
-        message: "Friend request sent successfully",
         data: { sender: updatedSender, receiver: updatedReceiver },
     };
 };
@@ -86,10 +85,7 @@ const acceptedFriend = async (userId) => {
         path: "friends",
         select: "-password",
     });
-    return {
-        message: "Sent friend requests retrieved successfully",
-        users: populatedUser?.friends || [],
-    };
+    return populatedUser?.friends || [];
 };
 exports.acceptedFriend = acceptedFriend;
 // ============================================================
@@ -108,10 +104,7 @@ const getRequestedFriend = async (userId) => {
         path: "friendRequests",
         select: "-password",
     });
-    return {
-        message: "Sent friend requests retrieved successfully",
-        users: populatedUser?.friendRequests || [],
-    };
+    return populatedUser?.friendRequests || [];
 };
 exports.getRequestedFriend = getRequestedFriend;
 // ============================================================
@@ -134,10 +127,7 @@ const getNonFriendUsers = async (userId) => {
             // { _id: { $nin: user.sentRequests } },
         ],
     }).select("-password");
-    return {
-        message: "Friend retrieved successfully",
-        users: nonFriendUsers,
-    };
+    return nonFriendUsers;
 };
 exports.getNonFriendUsers = getNonFriendUsers;
 // ============================================================
@@ -171,7 +161,6 @@ const cancelRequest = async (senderId, receiverId) => {
         type: "friend_request",
     });
     return {
-        message: "Friend request cancelled successfully",
         data: { sender: updatedSender, receiver: updatedReceiver },
     };
 };
@@ -207,7 +196,6 @@ const cancelRequestByMe = async (userId, friendId) => {
         type: "friend_request",
     });
     return {
-        message: "Friend request cancelled successfully",
         data: { sender: updatedSender, receiver: updatedReceiver },
     };
 };
@@ -234,7 +222,7 @@ const acceptRequest = async (senderId, receiverId) => {
     receiver.friendRequests = receiver.friendRequests.filter((id) => id.toString() !== senderId);
     await sender.save();
     await receiver.save();
-    return { message: "Friend request accepted", user: { sender, receiver } };
+    return { data: { sender, receiver } };
 };
 exports.acceptRequest = acceptRequest;
 //# sourceMappingURL=friend.service.js.map

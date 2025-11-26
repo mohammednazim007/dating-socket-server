@@ -65,25 +65,41 @@ exports.loginUser = loginUser;
 // CONTROLLER:
 //    - Called by `updateUserProfile` in `user.controller.ts`
 // ============================================================
-const updateProfile = async (userId, file, currentPassword, newPassword, name) => {
+const updateProfile = async (userId, data) => {
     const user = await user_model_1.default.findById(userId);
-    if (!user) {
+    if (!user)
         throw new Error("User not found");
-    }
+    const { name, role, location, website, bio, twitter, github, linkedin, file, } = data;
+    // Update profile fields
     if (name)
         user.name = name;
-    if (currentPassword && newPassword) {
-        const isMatch = await bcryptjs_1.default.compare(currentPassword, user.password);
-        if (!isMatch)
-            throw new Error("Current password is incorrect");
-        user.password = await bcryptjs_1.default.hash(newPassword, 10);
-    }
-    if (file?.path)
+    if (role)
+        user.role = role;
+    if (location)
+        user.location = location;
+    if (website)
+        user.website = website;
+    if (bio)
+        user.bio = bio;
+    if (twitter)
+        user.twitter = twitter;
+    if (github)
+        user.github = github;
+    if (linkedin)
+        user.linkedin = linkedin;
+    // Update avatar
+    if (file?.path) {
         user.avatar = file.path;
+    }
     await user.save();
     return user;
 };
 exports.updateProfile = updateProfile;
+//  if (currentPassword && newPassword) {
+//    const isMatch = await bcrypt.compare(currentPassword, user.password);
+//    if (!isMatch) throw new Error("Current password is incorrect");
+//    user.password = await bcrypt.hash(newPassword, 10);
+//  }
 // ============================================================
 // ✅ METHOD: GET
 // ✅ SERVICE: getCurrentUser

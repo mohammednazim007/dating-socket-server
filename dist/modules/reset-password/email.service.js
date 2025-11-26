@@ -61,7 +61,7 @@ const handleVerifyOtp = async (email, otpCode) => {
         throw new Error("Email and OTP are required");
     const otpRecord = await email_model_1.default.findOne({ email, purpose: "reset_password" });
     if (!otpRecord)
-        throw new Error("OTP not found");
+        throw new Error("Invalid OTP request");
     // Check expiration
     if (otpRecord.expiresAt < new Date()) {
         await email_model_1.default.deleteOne({ _id: otpRecord._id });
